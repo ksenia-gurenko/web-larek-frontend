@@ -6,6 +6,8 @@ export class Order extends Form<IOrderForm> {
 	protected card: HTMLButtonElement;
 	protected cash: HTMLButtonElement;
 	button: HTMLButtonElement;
+	formErrors: HTMLElement;
+
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);
 
@@ -33,9 +35,10 @@ export class Order extends Form<IOrderForm> {
 		(this.container.elements.namedItem('address') as HTMLInputElement).value =
 			value;
 	}
+
 }
 
-export class OrderStep2 extends Form<IOrderForm> {
+export class Contacts extends Form<IOrderForm> {
 	button: HTMLButtonElement;
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);
@@ -50,4 +53,5 @@ export class OrderStep2 extends Form<IOrderForm> {
 		(this.container.elements.namedItem('email') as HTMLInputElement).value =
 			value;
 	}
+
 }

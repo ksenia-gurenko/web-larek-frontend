@@ -4,14 +4,14 @@ export type CatalogChangeEvent = {
 
 export interface IAppData {
 	// Свойства
-	_basket: ICard[];
-	catalog: ICard[];
+    _basketProducts: IProductItem[];
+	_catalog: ICard[];
 	productCards: IProductItem[];
 	selectedСard: IProductItem;
 
 	// Методы
-	set cards(cards: ICard[]);
-	get cards(): ICard[];
+	set catalog(cards: ICard[]);
+	get catalog(): ICard[];
 	setPreview(item: IProductItem): void;
 }
 
@@ -165,42 +165,10 @@ export interface IFormErrors {
 	email?: string;
 }
 
-export interface IViewConstructor {
-	new (container: HTMLElement, events?: IEventEmitter): IView;
-}
+export type ValidationErrors = Partial<Record<keyof IFormErrors, string>>;
 
-export interface IApi {
-	baseUrl: string;
-	get<T>(url: string): Promise<T>;
-	post<T>(url: string, data: object, method?: ApiMethods): Promise<T>;
-}
 
-export interface IUserData {
-	getUserInfo(): TUserBaseInfo;
-	getOrderInfo(): TUserOrderInfo;
-	setUserInfo(userData: IUser): void;
-	setPaymentFields(field: keyof IOrderData, value: string): void;
-	setContactFields(field: keyof IOrderData, value: string): void;
-	checkOrderForm(): boolean;
-	checkUserForm(): boolean;
-	resetOrder(): void;
-}
 
-export interface IUser {
-	thisPayment: string;
-	thisEmail: string;
-	thisPhone: string;
-	thisAddress: string;
-}
 
-export type TUserBaseInfo = Pick<IUser, 'thisEmail' | 'thisPhone'>;
 
-export type TUserOrderInfo = Pick<IOrderData, 'payment' | 'address'>;
 
-export type ApiMethods = 'POST' | 'PUT' | 'DELETE';
-
-export interface ICatalogModel {
-	items: IProduct[];
-	setItems(items: IProduct[]): void; 
-	getProduct(id: string): IProduct | undefined;
-} 

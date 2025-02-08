@@ -90,3 +90,18 @@ export class EventEmitter implements IEvents {
     }
 }
 
+export class CustomEventEmitter extends EventEmitter {
+    constructor(private modal: any, private appData: any, private basketView: any) {
+        super();
+    }
+
+    onClick() {
+        console.log('Click by CustomEventEmitter');
+        this.modal.close();
+        this.appData.resetCounter();
+        this.appData.cleanBasket();
+        this.basketView.renderHeaderBasketCounter(this.appData.getCounter());
+        this.basketView.render();
+    }
+}
+

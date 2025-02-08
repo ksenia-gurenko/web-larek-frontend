@@ -3,7 +3,7 @@ import {
 	ICardActions,
 	IProductItem,
 	IPreviewCard,
-	IBasketCard
+	IBasketCard,
 } from '../types';
 import { Component } from './base/Component';
 import { IEvents } from './base/events';
@@ -18,6 +18,13 @@ export class Card extends Component<ICard> {
 	protected cardImage?: HTMLImageElement | undefined;
 	protected deleteButton?: HTMLButtonElement | undefined;
 	protected cardID?: string;
+	protected colors = <Record<string, string>>{
+		кнопка: 'button',
+		'хард-скил': 'hard',
+		другое: 'other', 
+		дополнительное: 'additional',
+		'софт-скил': 'soft',
+	};
 
 	constructor(
 		protected container: HTMLElement,
@@ -44,6 +51,7 @@ export class Card extends Component<ICard> {
 
 	set category(value: string) {
 		this.setText(this.cardCategory, value);
+		this.cardCategory.className = `card__category card__category_${this.colors[value]}`;
 	}
 
 	set title(value: string) {
@@ -92,7 +100,6 @@ export class CatalogueCard extends Card {
 	}
 }
 
-
 // Класс для карточки корзины
 export class BasketCard implements IBasketCard {
 	public _basketCard: HTMLElement;
@@ -140,6 +147,13 @@ export class PreviewCard implements IPreviewCard {
 	protected cardImage: HTMLImageElement;
 	protected cardPrice: HTMLElement;
 	protected cardID?: string;
+	protected colors = <Record<string, string>>{
+		кнопка: 'button',
+		'хард-скил': 'hard',
+		другое: 'other', 
+		дополнительное: 'additional',
+		'софт-скил': 'soft',
+	};
 	description: HTMLElement;
 	button: HTMLElement;
 
@@ -181,6 +195,7 @@ export class PreviewCard implements IPreviewCard {
 	// Сеттер для категории
 	set category(value: string) {
 		this.setText(this.cardCategory, value);
+		this.cardCategory.className = `card__category card__category_${this.colors[value]}`
 	}
 
 	// Метод установки цены
