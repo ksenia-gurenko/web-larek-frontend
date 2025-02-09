@@ -2,11 +2,20 @@ export type CatalogChangeEvent = {
 	catalog: ICard[];
 };
 
+export class Product implements IProductItem {
+	id: string;
+	price: number | null;
+	title: string;
+	category: string;
+	description: string;
+	image: string;
+	selected: boolean;
+   }
+
 export interface IAppData {
 	// Свойства
     _basketProducts: IProductItem[];
 	_catalog: ICard[];
-	productCards: IProductItem[];
 	selectedСard: IProductItem;
 
 	// Методы
@@ -33,8 +42,8 @@ export interface IOrderForm {
 }
 
 export interface IOrder extends IOrderForm {
-	items: string[];
-	total: number;
+	items?: string[];
+	total?: number;
 }
 
 export interface IProductItem {

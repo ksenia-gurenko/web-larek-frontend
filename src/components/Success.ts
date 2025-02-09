@@ -20,12 +20,19 @@ export class Success extends Component<ISuccess> {
 
         if (actions?.onClick) {
             if (this.button) {
-                this.button.addEventListener('click', actions.onClick);
+                this.button.addEventListener('click', () => {
+                    actions.onClick();
+                    this.onClose(); // Вызываем метод onClose
+                });
             }
         }
     }
 
     set description(value: number) {
         this.setText(this._total, `Списано ${value} синапсов`);
+    }
+
+    onClose() {
+        this._events.emit('success:close'); // Вызываем событие 'success:close'
     }
 }

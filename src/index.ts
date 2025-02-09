@@ -136,6 +136,7 @@ events.on('modalCard:open', (item: IProductItem) => {
 	const previewCard = new PreviewCard(previewCardTemplate, events);
 	const content = previewCard.render(item);
 	modal.render({ content });
+	modal.open();
 });
 
 // Добавление товара в корзину
@@ -148,6 +149,7 @@ events.on('card:addBasket', () => {
 // Открытие модального окна корзины
 events.on('basket:open', () => {
 	modal.render({ content: basketView.render() });
+	modal.open();
 });
 
 // Удаление товара из корзины
@@ -167,6 +169,7 @@ events.on('order:open', () => {
 			errors: [],
 		}),
 	});
+	modal.open();
 });
 
 // Изменилось одно из полей
@@ -242,42 +245,41 @@ events.on('userInfo:open', () => {
 			errors: [],
 		}),
 	});
+	modal.open();
 });
 
 events.on('contacts:submit', () => {
-	events.emit('success:open');
+    events.emit('success:open');
 });
 
 events.on('success:open', () => {
-	console.log(appData.order);
+    console.log(appData.order);
 
-	api
-		.doOrder(appData.order)
-		.then((result) => {
-			console.log(result);
-			const success = new Success(cloneTemplate(successTemplate), {
-				onClick: () => {
-					modal.close();
-				},
-			});
-			success.description = appData.getSummaProducts();
-			modal.render({
-				content: success.render({}),
-			});
-		})
-		.catch((err) => {
-			console.error(err);
-			alert(
-				'Произошла ошибка при отправке заказа. Проверьте ваше подключение к интернету.'
-			);
-		});
+    api.doOrder(appData.order)
+        .then((result) => {
+            console.log(result);
+            const success = new Success(cloneTemplate(successTemplate), {
+                onClick: () => {
+                    modal.close();
+                },
+            }, events); // Передаем события в конструктор Success
+            success.description = appData.getSummaProducts();
+            modal.render({
+                content: success.render({}),
+            });
+            modal.open();
+        })
+        .catch((err) => {
+            console.error(err);
+            alert('Произошла ошибка при отправке заказа. Проверьте ваше подключение к интернету.');
+        });
 });
 
 events.on('success:close', () => {
-	modal.close();
-	appData.resetCounter();
-	appData.cleanBasket();
-	basketView.renderHeaderBasketCounter(appData.getCounter());
-	basketView.render();
-	events.emit('order:changed');
+    modal.close();
+    appData.resetCounter();
+    appData.cleanBasket();
+    basketView.renderHeaderBasketCounter(appData.getCounter());
+    basketView.render();
+    events.emit('order:changed');
 });
