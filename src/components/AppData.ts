@@ -9,14 +9,10 @@ import {
    import { IEvents } from './base/events';
    
    export class AppData implements IAppData {
-	protected _productCards: IProductItem[];
-	// выбранная карточка
-	selectedСard: IProductItem;
+	selectedСard: IProductItem; // выбранная карточка
 	_basketProducts: IProductItem[];
-	// каталог
-	_catalog: ICard[];
-	// заказ
-	order: IOrder = {
+	_catalog: ICard[]; // каталог
+	order: IOrder = { // заказ
 	 email: '',
 	 phone: '',
 	 address: '',
@@ -27,21 +23,7 @@ import {
    
 	constructor(events: IEvents) {
 	 this.events = events;
-	 this._productCards = [];
 	 this._basketProducts = [];
-	}
-   
-	private _items: ICard[] = [];
-	public get items(): ICard[] {
-	 return this._items;
-	}
-   
-	public setItems(items: ICard[]): void {
-	 this._items = items;
-	}
-   
-	public getProduct(id: string): ICard | undefined {
-	 return this.items.find((item) => item.id === id);
 	}
    
 	// карточки
@@ -50,18 +32,18 @@ import {
 	 this.events.emit('cards:changed');
 	}
    
-	get catalog() {
+	get catalog() { 
 	 return this._catalog;
 	}
    
 	// выбор карточки
-	setPreview(item: IProductItem) {
+	setPreview(item: IProductItem) { 
 	 this.selectedСard = item;
 	 this.events.emit('modalCard:open', item);
 	}
    
 	// поля заказа
-	setOrderField(field: keyof IOrderForm, value: string) {
+	setOrderField(field: keyof IOrderForm, value: string) { 
 	 this.order[field] = value;
 	 if (this.validateContactsForm()) {
 	  this.events.emit('contacts:ready', this.order);
@@ -77,20 +59,20 @@ import {
 	 this._basketProducts = data;
 	}
    
-	get basketProducts() {
+	get basketProducts() { 
 	 return this._basketProducts;
 	}
    
 	// количество товаров в корзине
-	getCounter() {
+	getCounter() { //
 	 return this._basketProducts.length;
 	}
    
-	resetCounter() {
+	resetCounter() { //
 	 this._basketProducts.length = 0;
 	}
    
-	getSummaProducts() {
+	getSummaProducts() { //
 	 let summa = 0;
 	 this._basketProducts.forEach((item) => {
 	  summa += item.price || 0;
@@ -99,19 +81,19 @@ import {
 	}
    
 	// добавить карточку в корзину
-	setСard(data: IProductItem) {
+	setСard(data: IProductItem) { //
 	 this._basketProducts.push(data);
 	}
    
 	// удалить карточку из корзины
-	removeCardFromBasket(item: IProductItem) {
+	removeCardFromBasket(item: IProductItem) { //
 	 const index = this._basketProducts.indexOf(item);
 	 if (index >= 0) {
 	  this._basketProducts.splice(index, 1);
 	 }
 	}
    
-	cleanBasket() {
+	cleanBasket() { //
 	 this._basketProducts = [];
 	}
    
@@ -119,15 +101,8 @@ import {
 	 return this.order;
 	}
    
-	getCoasts(): number {
-	 return this.getSummaProducts();
-	}
    
-	getIds(): string[] {
-	 return this.basketProducts.map(product => product.id);
-	}
-   
-	validateContactsForm() {
+	validateContactsForm() { //
 	 const errors: typeof this.validationErrors = {};
 	 if (!this.order.email) {
 	  errors.email = 'Поле "email" обязательно для заполнения';
@@ -140,7 +115,7 @@ import {
 	 return Object.keys(errors).length === 0;
 	}
    
-	validateOrderForm() {
+	validateOrderForm() { //
 	 const errors: typeof this.validationErrors = {};
 	 if (!this.order.address) {
 	  errors.address = 'Поле "адрес" обязательно для заполнения';

@@ -2,7 +2,6 @@ import '../src/scss/styles.scss';
 
 import { EventEmitter, CustomEventEmitter } from './components/base/events';
 import './scss/styles.scss';
-//mport { BasketModel } from './components/BasketModel';
 import { BasketView } from './components/BasketView';
 import {
 	IOrderForm,
@@ -263,11 +262,19 @@ events.on('success:open', () => {
                     modal.close();
                 },
             }, events); // Передаем события в конструктор Success
+
             success.description = appData.getSummaProducts();
             modal.render({
                 content: success.render({}),
             });
             modal.open();
+
+            // Очистка данных после успешного запроса
+            appData.resetCounter();
+            appData.cleanBasket();
+            basketView.renderHeaderBasketCounter(appData.getCounter());
+            basketView.render();
+            events.emit('order:changed');
         })
         .catch((err) => {
             console.error(err);
@@ -277,9 +284,4 @@ events.on('success:open', () => {
 
 events.on('success:close', () => {
     modal.close();
-    appData.resetCounter();
-    appData.cleanBasket();
-    basketView.renderHeaderBasketCounter(appData.getCounter());
-    basketView.render();
-    events.emit('order:changed');
 });
