@@ -168,7 +168,6 @@ events.on('order:open', () => {
 			errors: [],
 		}),
 	});
-	modal.open();
 });
 
 // Изменилось одно из полей
@@ -244,7 +243,6 @@ events.on('userInfo:open', () => {
 			errors: [],
 		}),
 	});
-	modal.open();
 });
 
 events.on('contacts:submit', () => {
@@ -267,7 +265,6 @@ events.on('success:open', () => {
             modal.render({
                 content: success.render({}),
             });
-            modal.open();
 
             // Очистка данных после успешного запроса
             appData.resetCounter();
